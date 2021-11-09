@@ -211,4 +211,5 @@ return [
     'User Center'                                           => '会员中心',
     'Set to grounding'                                           => '上架',
     'Set to shelf'                                           => '下架',
+
 ];
