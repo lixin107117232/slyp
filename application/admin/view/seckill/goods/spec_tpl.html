@@ -1,0 +1,26 @@
+<div class="spec_item" id="spec_{$key}">
+    <div style="border:1px solid #e7eaec;padding:10px;margin-bottom: 10px;">
+        <input name="spec_id[]" type="hidden" class="form-control spec_id" value="{$key}">
+        <div class="form-group">
+            <div class="col-sm-6">
+                <div class="input-group">
+                    <input name="spec_title[{$key}]" type="text" class="form-control spec_title" value="" placeholder="规格名称 (比如: 颜色)">
+                    <div class="input-group-btn">
+                        <a href="javascript:;" data-id="{$key}" class="btn btn-info add-specitem" onclick="addSpecItem('{$key}')"><i
+                                class="fa fa-plus"></i> 添加规格项</a>
+                        <a href="javascript:void(0);" class="btn btn-danger" onclick="removeSpec('{$key}')"><i
+                                class="fa fa-remove"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" >
+            <div class="col-sm-6">
+                <div id="spec_item_items_{$key}" class="spec_item_items" >
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

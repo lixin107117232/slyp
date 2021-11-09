@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'Order_no'            => '订单编号',
+    'User_id'             => '购买用户id',
+    'User_name'           => '用户名称',
+    'Hospital_goods_name' => '医美商品名称',
+    'Sku_str'             => '购买属性',
+    'All_money'           => '总金额',
+    'Actual_money'        => '实际支付金额',
+    'Num'                 => '数量',
+    'Status'              => '支付状态',
+    'Pay_status'          => '支付方式',
+    'Pay_status 1'        => '余额',
+    'Pay_status 2'        => '微信',
+    'Pay_status 3'        => '支付宝',
+    'Createtime'          => '创建时间',
+    'Paytime'             => '支付时间',
+    'Updatetime'          => '核销时间',
+    'Deletetime'          => '删除时间',
+    'No Results were found'         => '未找到结果',
+    'Order not paid'                => '订单未支付',
+    'Failure of agent is self purchase bonus'           => '分红失败，代理商自购分红失败',
+    'Failure of general agent is self purchase bonus'   => '分红失败，总代理自购分红失败',
+    'Write off successful'          => '核销成功',
+    'Order does not exist'          => '订单不存在',
+];

@@ -1,0 +1,66 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('User_fictitious_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-fictitious_id" readonly data-rule="required" class="form-control" type="number" value="{$row.fictitious_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('User_mobile')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-mobile" readonly data-rule="required" class="form-control" type="number" value="{$row.mobile|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('User_nickname')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-user_id" readonly data-rule="required" data-source="user/user/index" data-field="nickname" class="form-control selectpage" name="row[user_id]" type="text" value="{$row.user_id|htmlentities}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Score')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-score" readonly data-rule="required" class="form-control" name="row[score]" type="number" value="{$row.score|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Before')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-before" readonly data-rule="required" class="form-control" name="row[before]" type="number" value="{$row.before|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('After')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-after" readonly data-rule="required" class="form-control" name="row[after]" type="number" value="{$row.after|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Memo')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-memo" readonly class="form-control" name="row[memo]" type="text" value="{$row.memo|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Type')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-type" readonly class="form-control" name="row[type]" type="number" value="{$row.type|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-4">
+            {$status}
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            {if $row.status == 1}
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            {/if}
+        </div>
+    </div>
+</form>

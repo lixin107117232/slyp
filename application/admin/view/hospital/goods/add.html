@@ -1,0 +1,343 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Goods_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-goods_id"  data-source="goods/index" class="form-control selectpage" name="row[goods_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Type_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-type_id"  data-source="hospital/type/index" class="form-control selectpage" name="row[type_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Shop_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-shop_id"  data-source="hospital/shop/index" class="form-control selectpage" name="row[shop_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+                {foreach name="statusList" item="vo"}
+                <label for="row[status]-{$key}"><input id="row[status]-{$key}" name="row[status]" type="radio" value="{$key}" {in name="key" value="0"}checked{/in} /> {$vo}</label>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Num')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-num" class="form-control" name="row[num]" type="number">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Specs_data')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+                {foreach name="specsDataList" item="vo"}
+                <label for="row[specs_data]-{$key}"><input id="row[specs_data]-{$key}" name="row[specs_data]" type="radio" value="{$key}" {in name="key" value="0"}checked{/in} /> {$vo}</label>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="stock_view" hidden style="padding: 0px 0px 20px 133px;">
+        <div class="control-group">
+            <label class="control-label"> </label>
+            <div class="controls" >
+                <button id="add_lv1" class="btn btn-primary" type="button">添加规格项</button>
+                <button id="update_table" class="btn btn-success" type="button">生成规格项目表</button>
+            </div>
+        </div>
+        <div id="lv_table_con" class="control-group" style="display: none;">
+            <label class="control-label"><b>规格项目表</b></label>
+            <div class="controls">
+                <div id="lv_table">
+
+                </div>
+            </div>
+
+        </div>
+        <div>
+            <button id="save_product" class="btn btn-default" style="display: none;">保存商品</button>
+        </div>
+    </div>
+    <div class="form-group stock">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Stock')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-stock" class="form-control" name="row[stock]" type="number">
+        </div>
+    </div>
+    <div class="form-group sales">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Sales')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-sales" class="form-control" name="row[sales]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Weigh')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-weigh" class="form-control" name="row[weigh]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Remark')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-remark" class="form-control editor" name="row[remark]"></textarea>
+        </div>
+    </div>
+
+    <input type="hidden" value="" name="obj" class="obj">
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="button" class="btn btn-success btn-embossed add">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
+
+<script src="http://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    var lv1HTML = '<div class="control-group lv1 item-attr">' +
+        '<label class="control-label"><b>规格名称</b></label>' +
+        '<div class="controls">' +
+        '<input type="text" name="lv1" style="border: 1px solid grey;margin-right: 23px;height: 30px;border-radius: 5px;" placeholder="规格名称">' +
+        '<button class="btn btn-primary add_lv2" type="button">添加参数</button>' +
+        '<button class="btn btn-danger remove_lv1" type="button">删除规格</button>' +
+        '</div>' +
+        '<div class="controls lv2s"></div>' +
+        '</div>';
+
+    var lv2HTML = '<div style="margin-top: 5px;">' +
+        '<input type="text" name="lv2" style="border: 1px solid grey;margin-right: 23px;height: 30px;border-radius: 5px;" placeholder="参数名称">' +
+        '<button class="btn btn-danger remove_lv2" type="button">删除参数</button>' +
+        '</div>';
+
+    $(document).ready(function() {
+        $('#add_lv1').on('click', function() {
+            var last = $('.control-group.lv1:last');
+            if (!last || last.length == 0) {
+                $(this).parents('.control-group').eq(0).after(lv1HTML);
+            } else {
+                last.after(lv1HTML);
+            }
+        });
+
+        $(document).on('click', '.remove_lv1', function() {
+            $(this).parents('.lv1').remove();
+        });
+
+        $(document).on('click', '.add_lv2', function() {
+            $(this).parents('.lv1').find('.lv2s').append(lv2HTML);
+        });
+
+        $(document).on('click', '.remove_lv2', function() {
+            $(this).parent().remove();
+        });
+        $(document).on('click', '#save_product', function () {
+
+            var obj = {};
+            var i = 0;
+            var first = '';
+            var tmp = {};
+            $('#lv_table input').each(function (index, e) {
+                var name = $(e).attr('name');
+                var value = $(e).val();
+                symbol = name.split('|')[0];
+                key = name.split('|')[1];
+                if (index == 0) {
+                    first = symbol;
+                    tmp = {symbol: symbol, item_id: 1};
+                } else if (first != symbol) {
+                    first = symbol;
+                    i++;
+                    tmp = {symbol: symbol, item_id: 1};
+                }
+                tmp[key] = value;
+                obj[i] = tmp;
+
+            });
+            console.log("保存商品");
+            console.log(obj);
+            $.ajax({
+                'url': 'hospital/goods/save_sku',
+                'method': 'post',
+                'data': obj,
+                'success': function (e) {
+                    $("#c-stock").val(e.stock);
+                    $("#c-sales").val(e.sales);
+                    layer.msg("商品信息保存成功");
+                    return false;
+                }
+            });
+        });
+
+
+        $(document).on('click', '#save_attr', function() {
+            save_attr();
+        });
+        $('#update_table').on('click', function() {
+            save_attr();
+//            update_table();
+        });
+
+        function update_table() {
+            var lv1Arr = $('input[name="lv1"]');
+            if (!lv1Arr || lv1Arr.length == 0) {
+                $('#lv_table_con').hide();
+                $('#lv_table').html('');
+                return;
+            }
+            for (var i = 0; i < lv1Arr.length; i++) {
+                var lv2Arr = $(lv1Arr[i]).parents('.lv1').find('input[name="lv2"]');
+                if (!lv2Arr || lv2Arr.length == 0) {
+                    layer.alert('您还有规格无参数，请添加之后再操作！');
+                    return false;
+                }
+            }
+
+            var tableHTML = '';
+            tableHTML += '<table class="table table-bordered">';
+            tableHTML += '    <thead>';
+            tableHTML += '        <tr>';
+            for (var i = 0; i < lv1Arr.length; i++) {
+                tableHTML += '<th width="50">' + $(lv1Arr[i]).val() + '</th>';
+            }
+            tableHTML += '            <th width="20">库存</th>';
+            tableHTML += '            <th width="20">价格</th>';
+            /*  tableHTML += '            <th width="20">现价</th>';
+              tableHTML += '            <th width="20">原价</th>';
+              tableHTML += '            <th width="20">库存</th>';*/
+            tableHTML += '        </tr>';
+            tableHTML += '    </thead>';
+            tableHTML += '    <tbody>';
+
+            var numsArr = new Array();
+            var idxArr = new Array();
+            for (var i = 0; i < lv1Arr.length; i++) {
+                numsArr.push($(lv1Arr[i]).parents('.lv1').find('input[name="lv2"]').length);
+                idxArr[i] = 0;
+            }
+
+            var len = 1;
+            var rowsArr = new Array();
+            for (var i = 0; i < numsArr.length; i++) {
+                len = len * numsArr[i];
+
+                var tmpnum = 1;
+                for (var j = numsArr.length - 1; j > i; j--) {
+                    tmpnum = tmpnum * numsArr[j];
+                }
+                rowsArr.push(tmpnum);
+            }
+            key='test';
+
+            for (var i = 0; i < len; i++) {
+                tableHTML += '        <tr data-row="' + (i+1) + '">';
+
+                var name = '';
+                var value = '';
+                for (var j = 0; j < lv1Arr.length; j++) {
+                    var n = parseInt(i / rowsArr[j]);
+                    if (j == 0) {
+                    } else if (j == lv1Arr.length - 1) {
+                        n = idxArr[j];
+                        if (idxArr[j] + 1 >= numsArr[j]) {
+                            idxArr[j] = 0;
+                        } else {
+                            idxArr[j]++;
+                        }
+                    } else {
+                        var m = parseInt(i / rowsArr[j]);
+                        n = m % numsArr[j];
+                    }
+
+                    var text = $(lv1Arr[j]).parents('.lv1').find('input[name="lv2"]').eq(n).val();
+                    var id = $(lv1Arr[j]).parents('.lv1').find('input[name="lv2"]').eq(n).attr('data-id');
+                    if (j != lv1Arr.length - 1) {
+                        value += id + ',';
+                        name += text + ',';
+                    } else {
+                        name += text;
+                        value += id;
+
+                    }
+
+                    if (i % rowsArr[j] == 0) {
+                        tableHTML += '<td width="50" rowspan="' + rowsArr[j] + '" data-rc="' + (i+1) + ',' + (j+1) + '">' + text + '</td>';
+                    }
+//                    key=$(lv1Arr[j]).val();
+//                    key=$(lv1Arr[j]).attr('data-id');
+                }
+                tableHTML += '<td width="20"><input type="text" name="'+ value + '|stock" value="'+ '"/></td>';
+                tableHTML += '<td width="20"><input type="text" name="'+ value + '|sales" value="'+ '"/></td>';
+                /* tableHTML += '<td width="20"><input type="text" name="'+ value + '|price" value="'+ '"/></td>';
+                 tableHTML += '<td width="20"><input type="text" name="' + value + '|original_price"  value="'+ '" /></td>';
+                 tableHTML += '<td width="20"><input type="text" name="' +  value + '|stock"  value="'+ '" /></td>';*/
+                tableHTML += '</tr>';
+            }
+            tableHTML += '</tbody>';
+            tableHTML += '</table>';
+
+            $('#lv_table_con').show();
+            $('#lv_table').html(tableHTML);
+
+        }
+        function save_attr() {
+            //生成key
+            var key=[];
+            $('.item-attr input[name=lv1]').each(function (index,ele) {
+                key.push($(ele).val());
+            });
+            //生成值
+            var need=[];
+            for ( j=0;j<key.length;j++){
+                need[j]=[];
+            }
+            i=0;
+            $('.item-attr input').each(function (index,ele) {
+                if($(ele).attr('name')=='lv1' && index!=0){
+                    i++;
+                }else if(index!=0){
+                    need[i].push($(ele).val());
+                }
+            });
+
+
+            $.ajax({
+                'url':'hospital/goods/save_attr',
+                'method':'post',
+                'data':{key:JSON.stringify(key),'value':JSON.stringify(need)},
+                'sync':0,
+                'success':function (e) {
+                    key=e.data.key;
+                    values=e.data.value;
+                    create_attr_id(key,values);
+                }
+            });
+        }
+
+        function create_attr_id(key,value) {
+            console.log("key,value");
+            console.log(key,value);
+            $('.item-attr input[name=lv1]').each(function (index,ele) {
+                $(ele).attr('data-id',key[index]);
+            });
+            $('.item-attr input[name=lv2]').each(function (index,ele) {
+                $(ele).attr('data-id',value[index]);
+            });
+            update_table();
+            $('#save_product').show();
+        }
+
+
+    });
+</script>

@@ -1,0 +1,123 @@
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    .body{
+        padding-top: -50px !important;
+    }
+    .navbar-toggle{
+        display: none;
+    }
+    .navbar-brand{
+        display: none;
+    }
+    .navbar{
+        display: none;
+    }
+    .down_box{
+        width: 100%;
+        height: 100%;
+        margin: auto;
+        background: url("/assets/img/bg.png");
+        background-size: 100% 100%;
+        position: absolute;
+        padding-top: 10%;
+        box-sizing: border-box;
+    }
+    .down_box .down_logo{
+        display: block;
+        width: 62%;
+        margin: auto;
+    }
+    .down_box .down_adver{
+        display: block;
+        width: 69%;
+        margin: auto;
+    }
+    .down_btnbox{
+        width: 66%;
+        text-align: center;
+        line-height: 48px;
+        margin:20% auto 0;
+    }
+    .down_btnbox .down_btn{
+        width: 100%;
+        height: 49px;
+        border: 2px solid #FFFFFF;
+        border-radius: 10px;
+        background: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 30px;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 25px;
+        color: #FFFFFF;
+        font-family: "苹方";
+    }
+    .down_btnbox .down_btn img{
+        max-width:24px;
+        max-height: 24px;
+        margin-right: 14px;
+    }
+    @media screen and (min-width:750px){
+        .down_box{
+            width: 750px;
+            height: 100%;
+            margin: auto;
+            background: url("bg.png");
+            background-size: 100% 100%;
+            position: absolute;
+            left: 50%;
+            top: 0;
+            margin-left: -375px;
+        }
+    }
+    a{text-decoration: none;}
+    img{max-width: 100%; height: auto;}
+    .weixin-tip{display: none; position: fixed; left:0; top:0; bottom:0; background: rgba(0,0,0,0.8);
+        filter:alpha(opacity=80);  height: 100%; width: 100%; z-index: 100;}
+    .weixin-tip p{text-align: center; margin-top: 10%; padding:0 5%;}
+    .weixin-tip img{
+        opacity: 0.5;
+    }
+</style>
+<div class="down_box">
+    <img src="/assets/img/logo2.png" class="down_logo">
+    <!--<img src="/assets/img/adver.png" class="down_adver">-->
+    <div class="down_btnbox">
+        <a href="{$android}">
+            <button class="down_btn"> <img src="/assets/img/android.png">Andriod正式版</button>
+        </a>
+        <a href="{$ios}">
+            <button class="down_btn"> <img src="/assets/img/ios.png">iphone正式版</button>
+        </a>
+    </div>
+
+    <div class="weixin-tip">
+        <p>
+            <img src="/assets/img/tishi.jpg" alt="微信打开"/>
+        </p>
+    </div>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(window).on("load",function(){
+            var winHeight = $(window).height();
+            function is_weixin() {
+                var ua = navigator.userAgent.toLowerCase();
+                if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            var isWeixin = is_weixin();
+            if(isWeixin){
+                $(".weixin-tip").css("height",winHeight);
+                $(".weixin-tip").show();
+            }
+        })
+    </script>
+</div>

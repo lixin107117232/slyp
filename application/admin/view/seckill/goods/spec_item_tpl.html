@@ -1,0 +1,17 @@
+<div class="spec_item_item" id="spec_item_item_{$key}" style="float:left;margin:5px;width:250px; position: relative">
+    <input type="hidden" class="form-control spec_item_show" name="spec_item_show[]" value="1">
+    <input type="hidden" class="form-control spec_item_id" name="spec_item_id_{$key}[]" value="{$this_key}">
+    <div class="input-group">
+                            <span class="input-group-addon">
+                                <input type="checkbox" checked="" value="1" onclick="showItem(this)">
+                            </span>
+        <input type="text" class="form-control spec_item_title valid" name="spec_item_title_{$key}[]"
+               value="">
+
+
+        <span class="input-group-addon">
+			<a href="javascript:;" onclick="removeSpecItem(this)" title="删除"><i class="fa fa-times"></i></a>
+<!--	  		<a href="javascript:;" class="fa fa-arrows" title="拖动调整显示顺序"></a>-->
+		</span>
+    </div>
+</div>

@@ -1,0 +1,357 @@
+<div class="content">
+    <style type="text/css">
+        .content {
+            padding: 25px 20px;
+        }
+
+        /* 订单详情 */
+        .order-detail .order-block {
+            height: 31px;
+            line-height: 31px;
+            background: #e8edf0;
+            border-radius: 13px;
+            font-size: 14px;
+            text-align: center;
+            position: relative;
+            margin-bottom: 50px;
+        }
+
+        .order-detail .order-block:before,
+        .order-detail .order-block:after {
+            content: "";
+            position: absolute;
+            z-index: 2;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            border-radius: 13px;
+            background: #18bc9c;
+        }
+
+        .order-detail .order-block:after {
+            background: #4dc7af;
+            z-index: 1;
+        }
+
+        .order-detail .order-block.progress-1:before {
+            width: 0;
+        }
+
+        .order-detail .order-block.progress-1:after {
+            width: 33%;
+        }
+
+        .order-detail .order-block.progress-2:before {
+            width: 66%;
+        }
+
+        .order-detail .order-block.progress-2:after {
+            width: 40%;
+        }
+
+        .order-detail .order-block.progress-3:before {
+            width: 100%;
+        }
+
+        .order-detail .order-block.progress-3:after {
+            width: 60%;
+        }
+
+        .order-detail .order-block.progress-4:before {
+            width: 60%;
+        }
+
+        .order-detail .order-block.progress-4:after {
+            width: 80%;
+        }
+
+        .order-detail .order-block.progress-5:before {
+            width: 100%;
+        }
+
+        .order-detail .order-block.progress-5:after {
+            width: 100%;
+        }
+
+        .order-detail .order-block.progress-5 li:nth-child(5) {
+            color: #fff;
+        }
+
+        .order-detail .order-block li {
+            width: 33%;
+            float: left;
+            list-style-type: none;
+            border-radius: 13px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .order-detail .order-block .tip {
+            font-size: 12px;
+            padding-top: 10px;
+            color: #717171;
+        }
+
+        .order-detail .order-block.progress-1 li:nth-child(1),
+        .order-detail .order-block.progress-2 li:nth-child(1),
+        .order-detail .order-block.progress-3 li:nth-child(1),
+        .order-detail .order-block.progress-4 li:nth-child(1),
+        .order-detail .order-block.progress-5 li:nth-child(1) {
+            color: #fff;
+        }
+
+        .order-detail .order-block.progress-2 li:nth-child(2),
+        .order-detail .order-block.progress-3 li:nth-child(2),
+        .order-detail .order-block.progress-4 li:nth-child(2),
+        .order-detail .order-block.progress-5 li:nth-child(2) {
+            color: #fff;
+        }
+
+        .order-detail .order-block.progress-3 li:nth-child(3),
+        .order-detail .order-block.progress-4 li:nth-child(3),
+        .order-detail .order-block.progress-5 li:nth-child(3) {
+            color: #fff;
+        }
+
+        .order-detail .order-block.progress-4 li:nth-child(4),
+        .order-detail .order-block.progress-5 li:nth-child(4) {
+            color: #fff;
+        }
+
+        .order-detail .td__order-price {
+            width: 200px;
+            display: inline-block;
+        }
+
+        .order-head {
+            width: 100%;
+            padding: 12px 20px;
+            margin-top: 60px;
+            /* margin-bottom: 20px; */
+            /* border-bottom: 1px solid #eef1f5; */
+        }
+
+        .order-head:not(:first-child) {
+            margin-top: 0;
+        }
+
+        .order-head .title {
+            position: relative;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .order-head .title::before {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 14px;
+            background: #18bc9c;
+            top: 4px;
+            left: -12px;
+        }
+
+        .table-responsive .table>tbody>tr>td {
+            text-align: center;
+            vertical-align: middle;
+            color: #676767;
+        }
+
+        .ordertext {
+            margin: 0 30px;
+        }
+
+        .table-bordered {
+            border: 1px solid #e8edf0;
+        }
+
+        .table-bordered>thead>tr>th,
+        .table-bordered>tbody>tr>th,
+        .table-bordered>tfoot>tr>th,
+        .table-bordered>thead>tr>td,
+        .table-bordered>tbody>tr>td,
+        .table-bordered>tfoot>tr>td {
+            border: 1px solid #e8edf0;
+        }
+
+        .table thead tr {
+            background: #f8f9fb;
+        }
+
+        .order_price span {
+            width: 70px;
+            display: inline-block;
+            text-align: right;
+        }
+    </style>
+    <div class="order-detail"><!--状态:0=待支付,1=已支付,2=已取消,3=待发货,4=已发货,5=确认收货,6=维权-->
+        <ul class="order-block progress-{if $row.status==1}3{elseif $row.status==0 && $row.paytime!=''}2{else}1{/if}">
+            <li>
+                <span>下单时间</span>
+                <div class="tip">{if $row['createtime']}{:date('Y-m-d H:i:s',$row['createtime'])}{/if}</div>
+            </li>
+            <li>
+                <span>付款</span>
+                <div class="tip">{if $row['paytime'] && $row['status']>=1}{:date('Y-m-d H:i:s',$row['paytime'])}{/if}</div>
+            </li>
+            <li>
+                <span>完成</span>
+                <div class="tip">{if $row['status']==5}{:date('Y-m-d H:i:s',$row['companytime'])}{/if}</div>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">商品信息</div>
+                <div class="panel-body">
+                    <p>
+                        <span>订单号：</span>
+                        <small>{$row.id}</small>
+                        <span style="margin-left: 30px;">买家：</span>
+                        <small>{$row.user.nickname?$row.user.nickname:$row.user.username}</small>
+                        <strong></strong>
+                    </p>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th class="text-center">
+                                <div class="th-inner">商品编码</div>
+                            </th>
+                            <th class="text-center">
+                                <div class="th-inner">主图</div>
+                            </th>
+                            <th class="text-center">
+                                <div class="th-inner">商品名称</div>
+                            </th>
+                            <th class="text-center">
+                                <div class="th-inner">购买规格</div>
+                            </th>
+                            <th class="text-center">
+                                <div class="th-inner">数量</div>
+                            </th>
+                            <th class="text-center">
+                                <div class="th-inner">单价</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{$row.goods_details.allgoods.id}</td>
+                            <td><a href="javascript:"><img class="img-sm img-center" src="{$row.goods_details.allgoods.cover_image}"></a></td>
+                            <td><strong>{$row.goods_details.allgoods.name}</strong></td>
+                            <td>{$row.specs_name}</td>
+                            <td>1</td>
+                            <td>{$row.price}</td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th colspan="9" style="text-align: right;">
+                               <!-- <span class="ordertext">运费（以最低结算）：<samp class="text-red">￥0.00</samp> </span>
+                                <span class="ordertext">优惠金额：<samp class="text-red">￥10.00</samp> </span>-->
+                                <span class="ordertext">实际支付：<samp class="text-red">￥{$row.price}</samp></span>
+                            </th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                   <div class="row">
+                       <div class="col-xs-12 col-sm-6">
+                           <div style="color: #333;">
+                               <p>预售时间：
+                                   <span>
+                                      {$row.start_time_text}~{$row.end_time_text}
+                                   </span>
+                               </p>
+                               {if $row.pay_data_text}
+                               <p style="margin-bottom: 15px;">支付方式：
+                                   <span class="label label-info">
+                                      {$row.pay_data_text}
+                                   </span>
+                               </p>
+                               {/if}
+                               <p style="margin-bottom: 15px;">交易状态：
+                                   <span>
+                                       {$row.status_text}
+                                   </span>
+                               </p>
+
+                               <input type="hidden" value="{$row.id}" id="id">
+                           </div>
+                       </div>
+
+                       <div class="col-xs-12 col-sm-6">
+                           <style>
+                               .display-flex {
+                                   display: flex;
+                                   align-items: center;
+                               }
+                               .order-detail-item-container {
+                                   margin-bottom: 5px;
+                               }
+                           </style>
+                           <div class="fix_user">
+                               <p>购买用户</p>
+                               <div class="display-flex order-detail-item-container">
+                                   <img src="{$row.user.avatar}" style="width: 54px; height: 54px; border-radius: 50%; margin-right: 20px;"> <div>
+                                   <div class="display-flex order-detail-item-container">
+                                       <div class="title-span-width">虚拟ID :</div>
+                                       <div class="delivery-margin-left theme-color cursor-pointer" style="text-decoration: underline;">
+                                           {$row.user.fictitious_id}</div>
+                                   </div>
+                                   <div class="display-flex order-detail-item-container">
+                                       <div class="title-span-width">昵称:</div>
+                                       <div class="delivery-margin-left">{$row.user.nickname?$row.user.nickname:$row.user.username}</div>
+                                   </div>
+                                   <div class="display-flex order-detail-item-container">
+                                       <div class="title-span-width">手机号:</div>
+                                       <div class="delivery-margin-left">{$row.user.mobile}</div>
+                                   </div>
+                               </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">付款信息</div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <tbody>
+                        <tr>
+                            <td>订单号</td>
+                            <td>{$row.id}</td>
+                        </tr>
+                        <tr>
+                            <td>支付方式</td>
+                            <td>
+                                {$row.pay_data_text}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>交易订单号</td>
+                            <td>{$row.out_trade_no}</td>
+                        </tr>
+                        <tr>
+                            <td>付款状态</td>
+                            <td>{$row.status_text}</td>
+                        </tr>
+                        <tr>
+                            <td>创建时间</td>
+                            <td>{:date('Y-m-d H:i:s',$row['createtime'])}</td>
+                        </tr>
+                        <tr>
+                            <td>付款时间</td>
+                            <td>{if $row['paytime']}{:date('Y-m-d H:i:s',$row['paytime'])}{/if}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

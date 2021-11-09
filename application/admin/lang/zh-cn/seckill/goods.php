@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'Goods_id'          => '商品id',
+    'Status'            => '状态',
+    'Status 0'          => '正常',
+    'Status 1'          => '已秒完',
+    'Status 2'          => '下架',
+    'Starttime'         => '开始时间',
+    'Price'             => '金额',
+    'One_specs_data'    => '第一笔订单成本价',
+    'Two_specs_data'    => '第二笔订单成本价',
+    'Specs_data'        => '是否选用规格',
+    'Specs_data 0'      => '否',
+    'Specs_data 1'      => '是',
+    'Stock'             => '库存',
+    'two_Stock'         => '第二场库存',
+    'Sales'             => '销量',
+    'Weigh'             => '权重',
+    'Createtime'        => '创建时间',
+    'Updatetime'        => '更新时间',
+    'Deletetime'        => '删除时间',
+    'Goods.name'        => '商品名称',
+    'Goods.cover_image' => '封面图',
+    'Is_act 0'          => '否',
+    'Is_act 1'          => '是',
+];

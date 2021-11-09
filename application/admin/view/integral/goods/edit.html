@@ -1,0 +1,379 @@
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Goods_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-goods_id" data-rule="required" data-source="goods/index" class="form-control selectpage" name="row[goods_id]" type="text" value="{$row.goods_id|htmlentities}">
+        </div>
+    </div>
+
+    <div class="form-group ">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Type_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-type_id" data-rule="required"   data-multiple="true"  data-source="integral/type/index" class="form-control selectpage" name="row[type_id]" type="text" value="{$row.type_id|htmlentities}">
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+            {foreach name="statusList" item="vo"}
+            <label for="row[status]-{$key}"><input id="row[status]-{$key}" name="row[status]" type="radio" value="{$key}" {in name="key" value="$row.status"}checked{/in} /> {$vo}</label>
+            {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Exchange_data')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+            {foreach name="exchangeDataList" item="vo"}
+            <label for="row[exchange_data]-{$key}"><input id="row[exchange_data]-{$key}" name="row[exchange_data]" type="radio" value="{$key}" {in name="key" value="$row.exchange_data"}checked{/in} /> {$vo}</label>
+            {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Real_price')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-real_price" class="form-control" name="row[real_price]" type="number" value="{$row.real_price|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Num')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-num" class="form-control" name="row[num]" type="number" value="{$row.num|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Weigh')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-weigh" class="form-control" name="row[weigh]" type="number" value="{$row.weigh}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Specs_data')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+            {foreach name="specsDataList" item="vo"}
+            <label for="row[specs_data]-{$key}"><input id="row[specs_data]-{$key}" name="row[specs_data]" type="radio" value="{$key}" {in name="key" value="$row.specs_data"}checked{/in} /> {$vo}</label>
+            {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group" {if $row['specs_data']==1}hidden{/if}>
+        <label class="control-label col-xs-12 col-sm-2">{:__('Stock')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-stock" class="form-control" name="row[stock]" type="number" value="{$row.stock|htmlentities}">
+        </div>
+    </div>
+   <!-- <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Specs_json')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <dl class="fieldlist" data-name="row[specs_json]">
+                <dd>
+                    <ins>{:__('Key')}</ins>
+                    <ins>{:__('Value')}</ins>
+                </dd>
+                <dd><a href="javascript:;" class="btn btn-sm btn-success btn-append"><i class="fa fa-plus"></i> {:__('Append')}</a></dd>
+                <textarea name="row[specs_json]" class="form-control hide" cols="30" rows="5">{$row.specs_json|htmlentities}</textarea>
+            </dl>
+
+
+        </div>
+    </div>-->
+    <input type="hidden" value="{$row.id}" class="id">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">商品规格:</label>
+        <div id="tboption" class="col-sm-10" style="padding-left: 15px;">
+            <div id="specs" class="ui-sortable">
+                {foreach name="itemAttr" item="row"}
+                <div class="spec_item" id="spec_{$row.attr_key_id}">
+                    <div style="border:1px solid #e7eaec;padding:10px;margin-bottom: 10px;">
+                        <input name="spec_id[]" type="hidden" class="form-control spec_id" value="{$row.attr_key_id}">
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <input name="spec_title[{$row.attr_key_id}]" type="text" class="form-control spec_title" value="{$row.attr_name}" placeholder="规格名称 (比如: 颜色)">
+                                    <div class="input-group-btn">
+                                        <a href="javascript:;" data-id="{$key}" class="btn btn-info add-specitem" onclick="addSpecItem('{$row.attr_key_id}')"><i
+                                                class="fa fa-plus"></i> 添加规格项</a>
+                                        <a href="javascript:void(0);" class="btn btn-danger" onclick="removeSpec('{$row.attr_key_id}')"><i
+                                                class="fa fa-remove"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" >
+                            <div class="col-sm-6">
+                                <div id="spec_item_items_{$row.attr_key_id}" class="spec_item_items" >
+                                    {foreach name="row.integralattrval" item = "row1"}
+                                    <div class="spec_item_item" id="spec_item_item_{$row.attr_key_id}" style="float:left;margin:5px;width:250px; position: relative">
+                                        <input type="hidden" class="form-control spec_item_show" name="spec_item_show[]" value="1">
+                                        <input type="hidden" class="form-control spec_item_id" name="spec_item_id_{$row.attr_key_id}[]" value="{$row1.symbol}">
+                                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <input type="checkbox" checked="" value="1" onclick="showItem(this)">
+                            </span>
+                                            <input type="text" class="form-control spec_item_title valid" name="spec_item_title_{$row.attr_key_id}[]"
+                                                   value="{$row1.attr_value}">
+
+                                            <span class="input-group-addon">
+			<a href="javascript:;" onclick="removeSpecItem(this)" title="删除"><i class="fa fa-times"></i></a>
+                                                <!--	  		<a href="javascript:;" class="fa fa-arrows" title="拖动调整显示顺序"></a>-->
+		</span>
+                                        </div>
+                                    </div>
+                                    {/foreach}
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                {/foreach}
+            </div>
+            <div class="col-sm-4">
+                <boutton class="btn btn-primary" onclick="addSpec()">添加规格</boutton>
+                <boutton class="btn btn-success" onclick="refreshOptions()"><i class="fa fa-refresh"></i>生成规格项目表</boutton>
+            </div>
+            <div id="options" style="padding:0;width: 80%"></div>
+        </div>
+        <script>
+
+            $(document).on("change",'  #c-real_price',function(){
+                var num = $('#c-real_price').val();
+                var price = Math.ceil((num * 1.05)/0.05) ;
+                $('#c-num').val(price)
+            });
+            // $(function () {
+            //     refreshOptions();
+            // })
+            function addSpec() {
+                $.ajax({
+                    url: "integral/goods/spec_tpl",
+                    cache: false,
+                    data:{},
+                }).done(function (html) {
+                    $("#specs").append(html);
+                });
+            }
+            function addSpecItem(keys) {
+                $.ajax({
+                    url: "integral/goods/spec_item_tpl",
+                    cache: false,
+                    data:{key:keys}
+                }).done(function (html) {
+                    $("#specs #spec_item_items_"+keys).append(html);
+                });
+            }
+            function removeSpec(specid){
+                if (confirm('确认要删除此规格?')){
+                    $("#spec_" + specid).remove();
+                    refreshOptions();
+                }
+            }
+            function setCol(cls){
+                $("."+cls).val( $("."+cls+"_all").val());
+            }
+            function removeSpecItem(obj){
+                $(obj).closest('.spec_item_item').remove();
+                refreshOptions();
+            }
+            function refreshOptions(){
+                // 刷新后重置
+                window.optionchanged = false;
+                $('#optiontip').hide();
+                var html = '<table class="table table-bordered table-condensed"><thead><tr class="active">';
+                var specs = [];
+                if($('.spec_item').length<=0){
+                    $("#options").html('');
+                    $("#discount").html('');
+                    $("#isdiscount_discounts").html('');
+                    $("#commission").html('');
+                    // isdiscount_change();
+                    return;
+                }
+                $(".spec_item").each(function(i){
+                    var _this = $(this);
+
+                    var spec = {
+                        id: _this.find(".spec_id").val(),
+                        title: _this.find(".spec_title").val()
+                    };
+                    console.log(spec)
+                    var items = [];
+                    _this.find(".spec_item_item").each(function(){
+                        var __this = $(this);
+                        var item = {
+                            id: __this.find(".spec_item_id").val(),
+                            title: __this.find(".spec_item_title").val(),
+                            virtual: __this.find(".spec_item_virtual").val(),
+                            show:__this.find(".spec_item_show").get(0).checked?"1":"0"
+                        }
+                        items.push(item);
+                    });
+                    spec.items = items;
+                    specs.push(spec);
+                });
+                specs.sort(function(x,y){
+                    return 1;
+                    if (x.items.length > y.items.length){
+                        return 1;
+                    }
+                    if (x.items.length < y.items.length) {
+                        return -1;
+                    }
+                });
+
+                var len = specs.length;
+                var newlen = 1;
+                var h = new Array(len);
+                var rowspans = new Array(len);
+                for(var i=0;i<len;i++){
+                    html+="<th>" + specs[i].title + "</th>";
+                    var itemlen = specs[i].items.length;
+                    if(itemlen<=0) { itemlen = 1 };
+                    newlen*=itemlen;
+
+                    h[i] = new Array(newlen);
+                    for(var j=0;j<newlen;j++){
+                        h[i][j] = new Array();
+                    }
+                    var l = specs[i].items.length;
+                    rowspans[i] = 1;
+                    for(j=i+1;j<len;j++){
+                        rowspans[i]*= specs[j].items.length;
+                    }
+                }
+                html += '<th width="20%"><div class=""><div style="padding-bottom:10px;text-align:center;">库存</div><div class="input-group"><input type="text" class="form-control  input-sm option_stock_all"VALUE=""/><span class="input-group-addon"><a href="javascript:;" class="fa fa-angle-double-down" title="批量设置" onclick="setCol(\'option_stock\');"></a></span></div></div></th>';
+                // html += '<th class="type-4"><div class=""><div style="padding-bottom:10px;text-align:center;">预售价</div><div class="input-group"><input type="text" class="form-control  input-sm option_presell_all"VALUE=""/><span class="input-group-addon"><a href="javascript:;" class="fa fa-angle-double-down" title="批量设置" onclick="setCol(\'option_presell\');"></a></span></div></div></th>';
+                // html += '<th class="type-4"><div class=""><div style="padding-bottom:10px;text-align:center;">现价</div><div class="input-group"><input type="text" class="form-control  input-sm option_marketprice_all"VALUE=""/><span class="input-group-addon"><a href="javascript:;" class="fa fa-angle-double-down" title="批量设置" onclick="setCol(\'option_marketprice\');"></a></span></div></div></th>';
+                // html+='<th class="type-4"><div class=""><div style="padding-bottom:10px;text-align:center;">原价</div><div class="input-group"><input type="text" class="form-control  input-sm option_productprice_all"VALUE=""/><span class="input-group-addon"><a href="javascript:;" class="fa fa-angle-double-down" title="批量设置" onclick="setCol(\'option_productprice\');"></a></span></div></div></th>';
+                // html+='<th class="type-4"><div class=""><div style="padding-bottom:10px;text-align:center;">成本价</div><div class="input-group"><input type="text" class="form-control  input-sm option_costprice_all"VALUE=""/><span class="input-group-addon"><a href="javascript:;" class="fa fa-angle-double-down" title="批量设置" onclick="setCol(\'option_costprice\');"></a></span></div></div></th>';
+                // html+='<th><div class=""><div style="padding-bottom:10px;text-align:center;">编码</div><div class="input-group"><input type="text" class="form-control  input-sm option_goodssn_all"VALUE=""/><span class="input-group-addon"><a href="javascript:;" class="fa fa-angle-double-down" title="批量设置" onclick="setCol(\'option_goodssn\');"></a></span></div></div></th>';
+                // html+='<th><div class=""><div style="padding-bottom:10px;text-align:center;">条码</div><div class="input-group"><input type="text" class="form-control  input-sm option_productsn_all"VALUE=""/><span class="input-group-addon"><a href="javascript:;" class="fa fa-angle-double-down" title="批量设置" onclick="setCol(\'option_productsn\');"></a></span></div></div></th>';
+                // html+='<th><div class=""><div style="padding-bottom:10px;text-align:center;">重量（克）</div><div class="input-group"><input type="text" class="form-control  input-sm option_weight_all"VALUE=""/><span class="input-group-addon"><a href="javascript:;" class="fa fa-angle-double-down" title="批量设置" onclick="setCol(\'option_weight\');"></a></span></div></div></th>';
+                html+='</tr></thead>';
+                for(var m=0;m<len;m++){
+                    var k = 0,kid = 0,n=0;
+                    for(var j=0;j<newlen;j++){
+                        var rowspan = rowspans[m];
+                        console.log(specs[m])
+                        if( j % rowspan==0){
+                            h[m][j]={title: specs[m].items[kid]?specs[m].items[kid].title:'',html: "<td class='full' rowspan='" +rowspan + "'>"+ specs[m].items[kid].title+"</td>\r\n",id: specs[m].items[kid].id};
+                        }
+                        else{
+                            h[m][j]={title:specs[m].items[kid].title, html: "",id: specs[m].items[kid].id};
+                        }
+                        n++;
+                        if(n==rowspan){
+                            kid++; if(kid>specs[m].items.length-1) { kid=0; }
+                            n=0;
+                        }
+                    }
+                }
+                console.log(h)
+                var hh = "";
+                for(var i=0;i<newlen;i++){
+                    hh+="<tr>";
+                    var ids = [];
+                    var titles = [];
+                    var virtuals = [];
+                    for(var j=0;j<len;j++){
+                        hh+=h[j][i].html;
+                        ids.push( h[j][i].id);
+                        titles.push( h[j][i].title);
+                        virtuals.push( h[j][i].virtual);
+                    }
+                    ids =ids.join('_');
+                    titles= titles.join('+');
+                    var val ={ id : "",title:titles, stock : "",presell : "",costprice : "",productprice : "",marketprice : "",weight:"",productsn:"",goodssn:"",virtual:virtuals };
+                    if( $(".option_id_" + ids).length>0){
+                        val ={
+                            id : $(".option_id_" + ids+":eq(0)").val(),
+                            title: titles,
+                            stock : $(".option_stock_" + ids+":eq(0)").val(),
+                            presell : $(".option_presell_" + ids+":eq(0)").val(),
+                            costprice : $(".option_costprice_" + ids+":eq(0)").val(),
+                            productprice : $(".option_productprice_" + ids+":eq(0)").val(),
+                            marketprice : $(".option_marketprice_" + ids +":eq(0)").val(),
+                            goodssn : $(".option_goodssn_" + ids +":eq(0)").val(),
+                            productsn : $(".option_productsn_" + ids +":eq(0)").val(),
+                            weight : $(".option_weight_" + ids+":eq(0)").val(),
+                            virtual : virtuals
+                        }
+                        console.log(2222)
+                        console.log(val)
+                    }
+
+                    hh += '<td>'
+                    hh += '<input data-name="option_stock_' + ids +'" type="text" class="form-control option_stock option_stock_' + ids +'" value="' +(val.stock=='undefined'?'':val.stock )+'"/></td>';
+                    hh += '<input data-name="option_id_' + ids+'" type="hidden" class="form-control option_id option_id_' + ids +'" value="' +(val.id=='undefined'?'':val.id )+'"/>';
+                    hh += '<input data-name="option_ids" type="hidden" class="form-control option_ids option_ids_' + ids +'" value="' + ids +'"/>';
+                    hh += '<input data-name="option_title_' + ids +'" type="hidden" class="form-control option_title option_title_' + ids +'" value="' +(val.title=='undefined'?'':val.title )+'"/></td>';
+                    hh += '<input data-name="option_virtual_' + ids +'" type="hidden" class="form-control option_virtual option_virtual_' + ids +'" value="' +(val.virtual=='undefined'?'':val.virtual )+'"/></td>';
+                    // hh += '</td>';
+                    // hh += '<td class="type-4"><input data-name="option_presell_' + ids+'" type="text" class="form-control option_presell option_presell_' + ids +'" value="' +(val.presell=='undefined'?'':val.presell )+'"/></td>';
+                    // hh += '<td class="type-4"><input data-name="option_marketprice_' + ids+'" type="text" class="form-control option_marketprice option_marketprice_' + ids +'" value="' +(val.marketprice=='undefined'?'':val.marketprice )+'"/></td>';
+                    // hh += '<td class="type-4"><input data-name="option_productprice_' + ids+'" type="text" class="form-control option_productprice option_productprice_' + ids +'" " value="' +(val.productprice=='undefined'?'':val.productprice )+'"/></td>';
+                    // hh += '<td class="type-4"><input data-name="option_costprice_' +ids+'" type="text" class="form-control option_costprice option_costprice_' + ids +'" " value="' +(val.costprice=='undefined'?'':val.costprice )+'"/></td>';
+                    // hh += '<td><input data-name="option_goodssn_' +ids+'" type="text" class="form-control option_goodssn option_goodssn_' + ids +'" " value="' +(val.goodssn=='undefined'?'':val.goodssn )+'"/></td>';
+                    // hh += '<td><input data-name="option_productsn_' +ids+'" type="text" class="form-control option_productsn option_productsn_' + ids +'" " value="' +(val.productsn=='undefined'?'':val.productsn )+'"/></td>';
+                    // hh += '<td><input data-name="option_weight_' + ids +'" type="text" class="form-control option_weight option_weight_' + ids +'" " value="' +(val.weight=='undefined'?'':val.weight )+'"/></td>';
+                    hh += "</tr>";
+                }
+                html+=hh;
+                html+="</table>";
+                $("#options").html(html);
+                // refreshDiscount();
+                // refreshIsDiscount();
+                // isdiscount_change();
+
+            }
+            edit();
+            function edit() {
+                var attr=JSON.parse('{$itemSku}');
+//            $('#update_table').trigger('click');
+                refreshOptions();
+                $('#options tbody tr').each(function (index,ele) {
+                    for (i=0;i<attr.length;i++){
+                        if(index==i){
+                            attr_symbol_path=attr[i].attr_symbol_path;
+                            attr_symbol_path=attr_symbol_path.replace(',','_');
+                            $(".option_stock_"+attr_symbol_path).val(attr[i].stock);
+                            $(".option_id_"+attr_symbol_path).val(attr[i].sku_id);
+                            // console.log(attr_symbol_path)
+                            // /*$(ele).find('input[name="'+attr_symbol_path+'|price"]').val(attr[i].price);
+                            // $(ele).find('input[name="'+attr_symbol_path+'|original_price"]').val(attr[i].original_price);*/
+                            // $(ele).find('input[name="'+attr_symbol_path+'|stock"]').val(attr[i].stock);
+                            // $(ele).find('input[name="'+attr_symbol_path+'|sales"]').val(attr[i].sales);
+                        }
+                    }
+                });
+            }
+        </script>
+
+    </div>
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="button" class="btn btn-success btn-embossed  edit">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

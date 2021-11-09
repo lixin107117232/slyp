@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>盛乐优品APP-用户注册</title>
+    <style>
+        html,body{
+                position:relative;
+                height:100%;
+                min-height:100%;
+        }
+        .navbar{
+            display: none;
+        }
+        .bg{
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(179deg, #ff6a00 0%, #faa060 100%);
+            left: 0;
+            top: 0;
+            min-height:568px;
+            box-sizing: border-box;
+        }
+        .content-register{
+            width: 92%;
+            height: 84%;
+            background: #FFFFFF;
+            border-radius: 15px;
+            position: absolute;
+            left: 4%;
+            top: 9%;
+        }
+        .content-register .boxtop{
+            width: 100%;
+            height: 86%;
+            background: #FFFFFF;
+            box-shadow: 0px 3px 50px rgba(55, 85, 255, 0.2);
+            border-radius: 15px;
+            padding: 5.6% 8%;
+            box-sizing: border-box;
+        }
+        .content-register .boxtop .title{
+            font-size: 22px;
+            font-weight: bold;
+            line-height: 32px;
+            color: #000000;
+            margin-bottom: 6%;
+        }
+        .content-register .boxtop .item{
+            margin-bottom: 5%;
+        }
+        .content-register .boxtop .item label{
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 25px;
+            color: #999999;
+            display: block;
+        }
+        .content-register .boxtop .item .inputbox{
+            width: 100%;
+            height: 36px;
+            line-height: 36px;
+            margin-top: 5%;
+            background: #EFEFF4;
+            border-radius: 34px;
+            padding: 0 10%;
+            box-sizing: border-box;
+
+        }
+        .content-register .boxtop .item input{
+            font-size: 14px;
+            /*font-weight: bold;*/
+            line-height: 28px;
+            color: #000000;
+        }
+        .content-register .boxtop .item .inputbox .getcode{
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+            color: #5856D6;
+        }
+        .content-register .logintype{
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+            color: #5856D6;
+            width: 100%;
+            text-align: right;
+            padding-right: 10%;
+            box-sizing: border-box;
+        }
+        .content-register .btn{
+            width: 100%;
+            height: 36px;
+            background: linear-gradient(270deg, #ff6a00 0%, #faa060 100%);
+            border-radius: 34px;
+            text-align: center;
+            line-height: 36px;
+            margin-top: 5%;
+            font-size: 16px;
+            font-weight: 400;
+            color: #FFFFFF;
+            padding: 0px;
+        }
+        .content-register .tips{
+            width: 100%;
+            height: 14%;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 25px;
+            color: #999999;
+        }
+        .content-register .tips span{
+            color: #f57921;
+            font-weight: bold;
+        }
+        .radiobox{
+            position: relative;
+            overflow: hidden;
+            margin-right: 6px;
+        }
+        .df{
+            display: flex;
+        }
+        .aic{
+            align-items: center;
+        }
+        .jcc{
+            justify-content: center;
+        }
+        .jcsb{
+            justify-content: space-between;
+        }
+        ol,ul{
+            list-style:none;
+        }
+        input,button,textarea {
+            border:0;
+            margin:0;
+            padding:0;
+            font-size:1em;
+            line-height:1em;
+            /*-webkit-appearance:none;*/
+            background-color:rgba(0, 0, 0, 0);
+        }
+        span{
+            display:inline-block;
+        }
+        a:active, a:hover {
+            outline: 0;
+        }
+        a, a:visited{
+            text-decoration:none;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        td,th {
+            padding: 0;
+        }
+        .radiobox input[type="checkbox"]{
+            position: absolute;
+            opacity: 0;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            z-index: 9;
+        }
+        .radiobox input[type="checkbox"] + label {
+            display: block;
+            width: 24px;
+            height: 24px;
+            background: #FFFFFF;
+            border: 2px solid #999999;
+            border-radius: 50%;
+            z-index: 1;
+            box-sizing: border-box;
+        }
+        .radiobox input[type="checkbox"]:checked + label {
+            border: none;
+            background:url("../../assets/img/checked.png");
+            background-size: 100%
+        }
+    </style>
+</head>
+<body>
+<div class="bg">
+    <form name="user_registers" class="form-vertical" method="POST" action="{:url('user/registers')}">
+        <div class="content-register">
+            <div class="boxtop">
+                <div class="title">用户注册</div>
+                <div class="item">
+                    <label>手机号</label>
+                    <div class="inputbox">
+                        <input type="text" name="phone" id="phone" value="" placeholder="请输入手机号">
+                    </div>
+                </div>
+                <div class="item" style="margin-bottom: 3%;">
+
+                    <div class="inputbox df aic jcsb">
+                        <input type="password" name="password" value="" placeholder="请输入密码" style="width:calc(100% - 80px)" id="password">
+                    </div>
+                    <div class="inputbox df aic jcsb">
+                        <input type="password" name="password_again" value="" placeholder="请再次输入密码" style="width:calc(100% - 80px)" id="password_again">
+                    </div>
+                    <label>验证码</label>
+                    <div class="inputbox df aic jcsb">
+                        <input type="text" name="code" value="" placeholder="请输入验证码" style="width:calc(100% - 80px)" id="code">
+                        <span class="getcode" id="getcode">获取验证码</span>
+                    </div>
+                </div>
+                <div class="item" style="display: none">
+                    <label>邀请人</label>
+                    <div class="inputbox">
+                        <input type="text" name="user_code" value="{$user_code}" placeholder="" id="user_code" >
+                    </div>
+                </div>
+                <div class="btn" id="now_rigisters">新会员注册并下载</div>
+                <div class="btn" onclick='location.href="/index/user/down_page";'> 已注册会员APP更新 </div>
+            </div>
+            <div class="tips df aic jcc">
+                <div class="radiobox">
+                    <input name="radio" type="checkbox" value="1" id="xy">
+                    <label></label>
+                </div>
+                我已阅读同意<span id="zcxy">（注册协议）</span>
+            </div>
+        </div>
+    </form>
+    <div class="zhuce">
+
+    </div>
+</div>
+</body>
+</html>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+    var countdown=60;
+
+    $(function () {
+        $(".zhuce").hide();
+        $("#phone").blur(function () {
+            if(!$(this).val()){
+                alert("请输入手机号");
+            }
+        })
+        $("#code").blur(function () {
+            if(!$(this).val()){
+                alert("请输入验证码");
+            }
+        })
+        $("#password").blur(function () {
+            if(!$(this).val()){
+                alert("请输入密码");
+            }
+        })
+        $("#password_again").blur(function () {
+            if(!$(this).val()){
+                alert("请再次输入密码");
+            }
+        })
+
+        $("#zcxy").on("click",function () {
+            location.href="/index/user/zcxy";
+            return;
+
+        })
+
+        $("#now_rigisters").click(function () {
+            var phone = $("#phone").val();
+            var code = $("#code").val();
+            var password = $("#password").val();
+            var password_again = $("#password_again").val();
+            var user_code = $("#user_code").val();
+            var xy=$('input[name="radio"]:checked').val();
+
+            // 验证是否输入必要参数
+            if(xy == null){
+                alert("请勾选用户协议");return;
+            }
+            if(!phone){
+                alert("请输入手机号");return;
+            }
+            if(!code){
+                alert("请输入验证码");return;
+            }
+            if(!password){
+                alert("请输入密码");return;
+            }
+            if(!password_again){
+                alert("请再次输入密码");return;
+            }
+            if(password != password_again){
+                alert("两次输入的密码不一致，请重新输入");return;
+            }
+            $.ajax({
+                url: "/api/user/invitation_rigister",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    phone: phone,
+                    code: code,
+                    password: password,
+                    password_again: password_again,
+                    user_code: user_code,
+                    agreement: xy
+                },
+                success: function (ret) {
+                    if(ret.code == 1){
+                        alert("注册成功,即将跳转到下载页面");
+                        location.href="/index/user/down_page";
+                        return;
+                    }else if(ret.code == 0){
+                        alert(ret.msg);
+                        console.log(ret);
+                        return;
+                    }else{
+
+                    }
+                    console.log(ret);
+                }, error: function (e) {
+                    Backend.api.toastr.error(e.message);
+                }
+            });
+            console.log(phone);
+        })
+
+
+        $("#getcode").click(function () {
+            var phone = $("#phone").val();
+            if(!phone){
+                alert("请输入手机号");return;
+            }
+            if(!/^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(phone)){
+                alert("手机号格式不正确");return;
+            }
+            console.log(phone);
+            var obj = $("#btn");
+            $.ajax({
+                url: "/api/sms/send",
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    mobile: phone,
+                    event: "regist",
+                },
+                success: function (ret) {
+                    if(ret.code == 1){
+                        alert(ret.msg);
+                        settime(obj);
+                    }else{
+                        alert(ret.msg);
+                    }
+                    console.log(ret);
+                }, error: function (e) {
+                    Backend.api.toastr.error(e.message);
+                }
+            });
+        })
+
+        function settime(obj) { //发送验证码倒计时
+            if (countdown == 0) {
+                obj.attr('disabled',false);
+                //obj.removeattr("disabled");
+                obj.val("再次发送");
+                countdown = 60;
+                return;
+            } else {
+                obj.attr('disabled',true);
+                obj.val("重新发送(" + countdown + ")");
+                countdown--;
+            }
+            setTimeout(function() {
+                settime(obj)
+            },1000)
+        }
+    })
+
+</script>
